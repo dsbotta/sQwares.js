@@ -1,0 +1,77 @@
+body {
+	padding: 100px;
+}
+
+.sq-container {
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	transition: .7s;
+	-webkit-transition: .7s;
+	-moz-transition: .7s;
+	-o-transition: .7s;
+}
+
+.sq-4,
+.sq-9,
+.sq-16,
+.sq-25 {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	transition: .7s;
+	-webkit-transition: .7s;
+	-moz-transition: .7s;
+	-o-transition: .7s;
+}
+
+
+/****************************
+********* SQUARES ***********
+****************************/
+
+.sq-4 {
+	width: 45%;
+	height: 45%;
+	margin: 2.5%;
+}
+
+.sq-9 {
+	width: 27.33333331%;
+	height: 27.33333331%;
+	margin: 3%;
+}
+
+.sq-16 {
+	width: 21%;
+	height: 21%;
+	margin: 2%;
+}
+
+.sq-25 {
+	width: 16%;
+	height: 16%;
+	margin: 2%;
+}
+
+.sq-container:hover {
+	transform: rotate(135deg);
+	-webkit-transform: rotate(135deg);
+	-moz-transform: rotate(135deg);
+	-o-transform: rotate(135deg);
+}
+
+.sq-on {
+	transform: rotate(135deg);
+	-webkit-transform: rotate(135deg);
+	-moz-transform: rotate(135deg);
+	-o-transform: rotate(135deg);
+}
+
+.sq-off {
+	transform: rotate(0deg);
+	-webkit-transform: rotate(0deg);
+	-moz-transform: rotate(0deg);
+	-o-transform: rotate(0deg);
+}

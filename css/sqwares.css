@@ -1,3 +1,5 @@
+* {box-sizing: border-box;}
+
 body {
 	padding: 100px;
 }
@@ -12,10 +14,7 @@ body {
 	-o-transition: .7s;
 }
 
-.sq-4,
-.sq-9,
-.sq-16,
-.sq-25 {
+.sq-default {
 	display: inline-block;
 	margin: 0;
 	padding: 0;
@@ -44,9 +43,9 @@ body {
 }
 
 .sq-16 {
-	width: 21%;
-	height: 21%;
-	margin: 2%;
+	width: 20%;
+	height: 20%;
+	margin: 2.5%;
 }
 
 .sq-25 {
@@ -55,23 +54,42 @@ body {
 	margin: 2%;
 }
 
-.sq-container:hover {
-	transform: rotate(135deg);
-	-webkit-transform: rotate(135deg);
-	-moz-transform: rotate(135deg);
-	-o-transform: rotate(135deg);
+.sq-36 {
+	width: 12.666667%;
+	height: 12.666667%;
+	margin: 2%;
 }
 
-.sq-on {
-	transform: rotate(135deg);
-	-webkit-transform: rotate(135deg);
-	-moz-transform: rotate(135deg);
-	-o-transform: rotate(135deg);
+.sq-49 {
+	width: 10.7857143%;
+	height: 10.7857143%;
+	margin: 1.74999999%;
 }
 
-.sq-off {
+.sq-64 {
+	width: 10%;
+	height: 10%;
+	margin: 1.25%;	
+}
+
+.sq-click-on {
+	transform: translate(-50%, -50%);
+	transform: rotate(225deg);
+	-webkit-transform: rotate(225deg);
+	/*-moz-transform: rotate(135deg);
+	-o-transform: rotate(135deg);*/
+}
+
+.sq-click-off {
+	transform: translate(-50%, -50%);
 	transform: rotate(0deg);
 	-webkit-transform: rotate(0deg);
-	-moz-transform: rotate(0deg);
-	-o-transform: rotate(0deg);
+}
+
+.sq-hover:hover {
+	transform: translate(-50%, -50%);
+	transform: rotate(135deg);
+	-webkit-transform: rotate(135deg);
+	-moz-transform: rotate(135deg);
+	-o-transform: rotate(135deg);
 }

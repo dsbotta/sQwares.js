@@ -13,7 +13,8 @@ function SquareMaster() {
 		color: "black",
 		size: '50',
 		animHandler: 'click',
-		animationType: false
+		animationType: false,
+		inverse: false
 	};
 };
 
@@ -147,6 +148,8 @@ function SquareMaster() {
 	};
 
 	Square.prototype.animationType = function(type, animHandler) {
+		var inverse = this.settings.inverse;
+
 		//GET number of squares in the instance
 			//Store the length in the variable number
 		var number = $(this.hook).children().children().length;
@@ -162,8 +165,20 @@ function SquareMaster() {
 				return animHandler;
 			}
 		};
+
+		//Checks if the function should hide the inverse animation
+		function ifInverse(bool) {
+			if (inverse) {
+				return !bool;
+			} else {
+				return bool;
+			}
+		};
+
+		//Counter for the loop
 		var count = 0;
 
+		//Loop through each child of the instance
 		$(this.hook).children().children().each(function() {
 
 			if(type == "standard") {
@@ -172,47 +187,100 @@ function SquareMaster() {
 				var standard = 'sq-standard-';
 
 				//Determine animtion based on number of squares
-					//NOTE: number will show as -1 for index purposes
 				if(number === 4) {
-					
-					if( count > 0 && count < 3 ) {
+					//STANDARD 4
+					function standard4() {
+						if (count > 0 && count < 3) {
+							return ifInverse(true);
+						} else {
+							return ifInverse(false);
+						}
+					};	
+
+					if( standard4() ) {
 						$(this).addClass(standard + checkHandler());
 					}
 
 				} else if (number === 9) {
+					//STANDARD 9
+					function standard9() {
+						if ((count % 2) !== 0 ) {
+							return ifInverse(true);
+						} else {
+							return ifInverse(false);
+						}
+					};
 
-					if ( (count % 2) !== 0 ) {
+					if ( standard9() ) {
 						$(this).addClass(standard + checkHandler());
 					}
 
 				} else if (number === 16) {
+					//STANDARD 16
 					function standard16() {
 						if ( (count % 3) === 0 ) {
-							return false;
+							return ifInverse(false);
+						} else if (count < 1) {
+							return ifInverse(false);
+						} else if ((count % 5) === 0) {
+							return ifInverse(false);
+						} else {
+							return ifInverse(true);
 						}
-						if (count < 1) {
-							return false;
-						}
-						if ((count % 5) === 0) {
-							return false;
-						}
-						return true;
-					}
+					};
 					if ( standard16() ) {
 						$(this).addClass(standard + checkHandler());	
 					}
+				} else if (number === 25) {
+					function standard25() {
+						if ( count >= 0 && count <= 4 ) {
+							if ( count !== 2) {
+								return ifInverse(false);
+							} else {
+								return ifInverse(true);
+							}
+						} else if ( count >= 5 && count <= 9 ) {
+							if ( count !== 7) {
+								return ifInverse(false);
+							} else {
+								return ifInverse(true);
+							}
+						} else if ( count >= 10 && count <= 14 ) {
+							if  ( count === 12 ) {
+								return ifInverse(false);
+							} else {
+								return ifInverse(true);
+							}
+						} else if ( count >= 15 && count <= 19 ) {
+							if ( count !== 17 ) {
+								return ifInverse(false);
+							} else {
+								return ifInverse(true);
+							}
+						} else {
+							if ( count !== 22 ) {
+								return ifInverse(false);
+							} else {
+								return ifInverse(true);
+							}
+						};
+					};
+					if ( standard25() ) {
+						$(this).addClass(standard + checkHandler());	
+					}	
 				}
 
 			} else if(type == "smile") {
 
-				console.log('smile');
+				// console.log('smile');
 
 			} else {
 
-				console.log('something');
+				// console.log('something');
 
 			}
 
+			//Increment the counter variable
 			count++;
 
 		});

@@ -15,6 +15,8 @@ body {
 }
 
 .sq-default {
+	/*border-radius: 50%;*/
+	/*border: 1px solid rgb(100,100,100);*/
 	display: inline-block;
 	margin: 0;
 	padding: 0;
@@ -31,53 +33,47 @@ body {
 ****************************/
 
 .sq-4 {
-	width: 45%;
-	height: 45%;
-	margin: 2.5%;
-}
-
-.sq-9 {
-	width: 27.33333331%;
-	height: 27.33333331%;
+	width: 44%;
+	height: 44%;
 	margin: 3%;
 }
 
+.sq-9 {
+	width: 28.33333331%;
+	height: 28.33333331%;
+	margin: 2%;
+}
+
 .sq-16 {
-	width: 20%;
-	height: 20%;
-	margin: 2.5%;
+	width: 21%;
+	height: 21%;
+	margin: 2%;
 }
 
 .sq-25 {
-	width: 16%;
-	height: 16%;
-	margin: 2%;
+	width: 17.5%;
+	height: 17.5%;
+	margin: 1.25%;
 }
 
 .sq-36 {
-	width: 12.666667%;
-	height: 12.666667%;
-	margin: 2%;
+	width: 14.666667%;
+	height: 14.666667%;
+	margin: 1%;
 }
 
 .sq-49 {
-	width: 10.7857143%;
-	height: 10.7857143%;
-	margin: 1.74999999%;
-}
-
-.sq-64 {
-	width: 10%;
-	height: 10%;
-	margin: 1.25%;	
+	width: 12.2857143%;
+	height: 12.2857143%;
+	margin: 1%;
 }
 
 .sq-click-on {
 	transform: translate(-50%, -50%);
 	transform: rotate(225deg);
 	-webkit-transform: rotate(225deg);
-	/*-moz-transform: rotate(135deg);
-	-o-transform: rotate(135deg);*/
+	-moz-transform: rotate(225deg);
+	-o-transform: rotate(225deg);
 }
 
 .sq-click-off {
@@ -88,8 +84,20 @@ body {
 
 .sq-hover:hover {
 	transform: translate(-50%, -50%);
-	transform: rotate(135deg);
-	-webkit-transform: rotate(135deg);
-	-moz-transform: rotate(135deg);
-	-o-transform: rotate(135deg);
+	transform: rotate(225deg);
+	-webkit-transform: rotate(225deg);
+	-moz-transform: rotate(225deg);
+	-o-transform: rotate(225deg);
+}
+
+.sq-hover:hover .sq-standard-hover {
+	opacity: 0;
+}
+
+.sq-standard-click-off {
+	opacity: 1.0;
+}
+
+.sq-standard-click-on {
+	opacity: 0;
 }

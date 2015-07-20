@@ -68,6 +68,12 @@ body {
 	margin: 1%;
 }
 
+.sq-click-off {
+	transform: translate(-50%, -50%);
+	transform: rotate(0deg);
+	-webkit-transform: rotate(0deg);
+}
+
 .sq-click-on {
 	transform: translate(-50%, -50%);
 	transform: rotate(225deg);
@@ -76,10 +82,12 @@ body {
 	-o-transform: rotate(225deg);
 }
 
-.sq-click-off {
+.sq-click-on-counter {
 	transform: translate(-50%, -50%);
-	transform: rotate(0deg);
-	-webkit-transform: rotate(0deg);
+	transform: rotate(-225deg);
+	-webkit-transform: rotate(-225deg);
+	-moz-transform: rotate(-225deg);
+	-o-transform: rotate(-225deg);
 }
 
 .sq-hover:hover {
@@ -90,7 +98,16 @@ body {
 	-o-transform: rotate(225deg);
 }
 
-.sq-hover:hover .sq-standard-hover {
+.sq-hover-counter:hover {
+	transform: translate(-50%, -50%);
+	transform: rotate(-225deg);
+	-webkit-transform: rotate(-225deg);
+	-moz-transform: rotate(-225deg);
+	-o-transform: rotate(-225deg);
+}
+
+.sq-hover:hover .sq-standard-hover,
+.sq-hover-counter:hover .sq-standard-hover {
 	opacity: 0;
 }
 
@@ -100,4 +117,8 @@ body {
 
 .sq-standard-click-on {
 	opacity: 0;
+}
+
+#new-square, #black, #blue, #purple, #orange, #red {
+	margin: 0 50px;
 }

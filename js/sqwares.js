@@ -14,7 +14,8 @@ function SquareMaster() {
 		size: '50',
 		animHandler: 'click',
 		animationType: false,
-		inverse: false
+		inverse: false,
+		clockwise: true
 	};
 };
 
@@ -77,6 +78,10 @@ function SquareMaster() {
 			animHandler = 'sq-' + this.settings.animHandler + '-off';
 		};
 
+		if (this.settings.clockwise === false) {
+			animHandler += '-counter';
+		};
+
 		//Build the HTML node
 		var htmlNode = '<div class="sq-container ';
 		htmlNode += animHandler;
@@ -132,14 +137,22 @@ function SquareMaster() {
 	//A function to Determine if animation occurs on click or not
 	//
 	Square.prototype.eventHandler = function(animType, type) {
+
+		//If clockwise is false, use counter class
+		var clickOff = 'sq-click-off';
+		var clickOn = 'sq-click-on';
+		if ( this.settings.clockwise === false ) {
+			clickOn += '-counter';
+		};
+
 		if (animType == 'click') {
 			$(this.hook).children().click(function() {
-				$(this).toggleClass('sq-click-on sq-click-off');
+				$(this).toggleClass(clickOn);
 				if(type) {
 					//If animationType was specified:
 						//Create a click handler to toggle classes for the animation
 					$(this).children('.sq-' + type + '-click')
-						.toggleClass('sq-' + type + '-click-on', 'sq-' + type + '-click-off');
+						.toggleClass('sq-' + type + '-click-on');
 				}
 			});
 		} else {
@@ -154,17 +167,19 @@ function SquareMaster() {
 			//Store the length in the variable number
 		var number = $(this.hook).children().children().length;
 
+		var standardAnim;
+
 		//A function that returns the animHandler
 			//to be appended to the end of the class name
 			//This class name is used either for a click animation
 			//or a hover animation
-		function checkHandler() {
-			if (animHandler === 'click') {
-				return animHandler;
-			} else {
-				return animHandler;
-			}
-		};
+		// function checkHandler() {
+		// 	if (animHandler === 'click') {
+		// 		return animHandler;
+		// 	} else {
+		// 		return animHandler;
+		// 	}
+		// };
 
 		//Checks if the function should hide the inverse animation
 		function ifInverse(bool) {
@@ -175,13 +190,22 @@ function SquareMaster() {
 			}
 		};
 
+		//Build the animation type by iterating through
+		//given array argument and adding a class to change
+		//opacity to 0
+		function makeAnimation(animArray) {
+			if ( $.inArray(count, animArray) !== -1 )  {
+				return ifInverse(false);
+			} else {
+				return ifInverse(true);
+			}	
+		};
+
 		//Counter for the loop
 		var count = 0;
 
 		//Loop through each child of the instance
 		$(this.hook).children().children().each(function() {
-
-			if(type == "standard") {
 
 				//Class name prefix
 				var standard = 'sq-standard-';
@@ -189,99 +213,62 @@ function SquareMaster() {
 				//Determine animtion based on number of squares
 				if(number === 4) {
 					//STANDARD 4
-					function standard4() {
-						if (count > 0 && count < 3) {
-							return ifInverse(true);
-						} else {
-							return ifInverse(false);
-						}
-					};	
-
-					if( standard4() ) {
-						$(this).addClass(standard + checkHandler());
-					}
+					standardAnim = [1,2];
 
 				} else if (number === 9) {
 					//STANDARD 9
-					function standard9() {
-						if ((count % 2) !== 0 ) {
-							return ifInverse(true);
-						} else {
-							return ifInverse(false);
-						}
-					};
-
-					if ( standard9() ) {
-						$(this).addClass(standard + checkHandler());
-					}
+					standardAnim = [0,2,4,6,8];
 
 				} else if (number === 16) {
 					//STANDARD 16
-					function standard16() {
-						if ( (count % 3) === 0 ) {
-							return ifInverse(false);
-						} else if (count < 1) {
-							return ifInverse(false);
-						} else if ((count % 5) === 0) {
-							return ifInverse(false);
-						} else {
-							return ifInverse(true);
-						}
-					};
-					if ( standard16() ) {
-						$(this).addClass(standard + checkHandler());	
-					}
+					standardAnim = [0,3,5,6,9,10,12,15];
+
 				} else if (number === 25) {
-					function standard25() {
-						if ( count >= 0 && count <= 4 ) {
-							if ( count !== 2) {
-								return ifInverse(false);
-							} else {
-								return ifInverse(true);
-							}
-						} else if ( count >= 5 && count <= 9 ) {
-							if ( count !== 7) {
-								return ifInverse(false);
-							} else {
-								return ifInverse(true);
-							}
-						} else if ( count >= 10 && count <= 14 ) {
-							if  ( count === 12 ) {
-								return ifInverse(false);
-							} else {
-								return ifInverse(true);
-							}
-						} else if ( count >= 15 && count <= 19 ) {
-							if ( count !== 17 ) {
-								return ifInverse(false);
-							} else {
-								return ifInverse(true);
-							}
-						} else {
-							if ( count !== 22 ) {
-								return ifInverse(false);
-							} else {
-								return ifInverse(true);
-							}
-						};
-					};
-					if ( standard25() ) {
-						$(this).addClass(standard + checkHandler());	
-					}	
+					//STANDARD 25
+					standardAnim = [0,1,3,4,5,6,8,9,12,15,
+									16,18,19,20,21,23,24];
+
+				} else if (number === 36) {
+					//STANDARD 36
+					standardAnim = [0,1,4,5,6,7,10,11,14,
+									15,20,21,24,25,28,29,
+									30,31,34,35];
+					
+				} else if ( number === 49 ) {
+					//STANDARD 49
+					standardAnim = [0,1,5,6,7,8,9,11,12,13,
+									15,16,17,18,19,23,24,25,
+									29,30,31,32,33,35,36,37,
+									39,40,41,42,43,47,48];
+
+				} else {
+					return null;
 				}
 
-			} else if(type == "smile") {
+				//Add 
+				if(type == "standard") {
 
-				// console.log('smile');
+					if ( makeAnimation(standardAnim) ) {
+						$(this).addClass(standard + animHandler);
+					}
+					
+				} else if(type == "smile") {
 
-			} else {
+					// console.log('smile');
 
-				// console.log('something');
+				} else {
 
-			}
+					// console.log('something');
+
+				}
 
 			//Increment the counter variable
 			count++;
 
 		});
 	};
+
+
+
+
+

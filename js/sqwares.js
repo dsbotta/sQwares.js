@@ -5,18 +5,24 @@
 
 //MasterSquare constructor that holds default settings
 function SquareMaster() {
+
 	this.hideSq = $('.sq-hide');
 	
 	this.defaultSettings = {
 		hook: 'sq-hook',
 		number: 9,
-		color: "black",
+		color: [0,0,0],
 		size: '50',
 		animHandler: 'click',
+		speed: 'medium',
 		animationType: false,
 		inverse: false,
-		clockwise: true
+		clockwise: true,
+		radius: false
 	};
+
+	this.defaultSettings.secondColor = this.defaultSettings.color;
+
 };
 
 	//
@@ -24,8 +30,14 @@ function SquareMaster() {
 		//Calls on SquareMaster for defaults
 	//
 	function Square(object) {
+
 		SquareMaster.call(this);
+
+		//Default second color to main color
+		// this.settings.secondColor = this.settings.color;
+
 		this.settings = $.extend(this.defaultSettings, object);
+
 		this.hook = $('#' + this.settings.hook);
 	};
 	Square.prototype = Object.create(SquareMaster.prototype);
@@ -38,19 +50,20 @@ function SquareMaster() {
 		//string
 		//integer
 		//array container ints for (rgb)
-	Square.prototype.createColor = function() {
+	Square.prototype.createColor = function(color) {
 		var typeTest = jQuery.type(this.settings.color);
 
 		if (typeTest == "string") {
-			return this.settings.color;
+			return color;
 		} else if (typeTest == "number") {
-			return this.settings.color.toString();
+			return color.toString();
 		} else if (typeTest == "array") {
-			if (this.settings.color.length === 3) {
-				var rgb = 'rgb(' + this.settings.color[0] + ',' +this.settings.color[1] + ',' + this.settings.color[2] + ')';
+			if (color.length === 3) {
+				var rgb = 'rgb(' + color[0] + ',' + color[1] + ',' + color[2] + ')';
 				return rgb;
 			} else {
 				console.log('Error: Please add only 3 values to rgb color array.');
+				return 'black';
 			}
 		} else {
 			return 'black';
@@ -63,11 +76,27 @@ function SquareMaster() {
 	//
 	Square.prototype.buildSquare = function(num) {
 
-		//Variables for this function
+		//Variables for the function
 		var $hook = this.hook;
+
 		var size = this.settings.size + 'px';
+
 		var sqCssClass = 'sq-' + num; 
+
 		var classSelector = '.' + sqCssClass;
+
+		var radius = this.settings.radius;
+
+		var animationSpeed = function(speed) {
+			if ( speed == 'slow' ) {
+				return 'slow';
+			} else if ( speed == 'fast' ) {
+				return 'fast';
+			} else {
+				return 'medium'
+			}
+		};
+
 		var animHandler;
 
 		//Choose if animations occurs on hover 
@@ -83,14 +112,19 @@ function SquareMaster() {
 		};
 
 		//Build the HTML node
-		var htmlNode = '<div class="sq-container ';
+		var htmlNode = '<div class="sq-container-';
+		htmlNode += animationSpeed(this.settings.speed) + ' ';
 		htmlNode += animHandler;
 		htmlNode += '">';
 
 		for(var i = 0; i < num; i++) {
 			htmlNode += '<div class="'
 			htmlNode += sqCssClass + ' ';
-			htmlNode += 'sq-default">';
+			if(radius) {
+				htmlNode += 'radius '
+			};
+			htmlNode += 'sq-default-';
+			htmlNode += animationSpeed(this.settings.speed) + '">';
 			htmlNode += '</div>';
 		};
 
@@ -101,7 +135,7 @@ function SquareMaster() {
 
 		//Give the squares some basic styles
 		$hook.children().css({'height': size, 'width': size});
-		$(this.hook).find(classSelector).css('background-color', this.createColor());
+		$(this.hook).find(classSelector).css('background-color', this.createColor(this.settings.color));
 
 		//Cal the animation type
 		this.eventHandler(this.settings.animHandler, this.settings.animationType);
@@ -161,6 +195,10 @@ function SquareMaster() {
 	};
 
 	Square.prototype.animationType = function(type, animHandler) {
+		var firstColor = this.createColor(this.settings.color);
+
+		var secondColor = this.createColor(this.settings.secondColor);
+
 		var inverse = this.settings.inverse;
 
 		//GET number of squares in the instance
@@ -169,17 +207,7 @@ function SquareMaster() {
 
 		var standardAnim;
 
-		//A function that returns the animHandler
-			//to be appended to the end of the class name
-			//This class name is used either for a click animation
-			//or a hover animation
-		// function checkHandler() {
-		// 	if (animHandler === 'click') {
-		// 		return animHandler;
-		// 	} else {
-		// 		return animHandler;
-		// 	}
-		// };
+		var standardSecondColor;
 
 		//Checks if the function should hide the inverse animation
 		function ifInverse(bool) {
@@ -201,8 +229,44 @@ function SquareMaster() {
 			}	
 		};
 
+		function setSecondaryColor(colorArray) {
+			if ( $.inArray(count, colorArray) !== -1 )  {
+				console.log(colorArray +'\n');
+				return ifInverse(true);
+			} else {
+				return ifInverse(false);
+			}	
+		};
+
+		// function secondaryColorEventHandler() {
+		// 	if (animHandler === 'click') {
+		// 		$(this).click(function() {
+		// 			if ( !colorSwitch ) {
+		// 				console.log($(this).find('.second-color'));
+		// 				$(this).find('.second-color').css('background-color', secondColor);
+		// 				colorSwitch = true;
+		// 			} else {
+		// 				$(this).children('div .second-color').css('background-color', firstColor);
+		// 				colorSwitch = false;
+		// 			}
+		// 		});
+		// 	} else {
+		// 		$(this).parent().hover(function() {
+		// 			if ( !colorSwitch ) {
+		// 				$(this).children('.second-color').css('background-color', secondColor);
+		// 				colorSwitch = true;
+		// 			} else {
+		// 				$(this).children('.second-color').css('background-color', firstColor);
+		// 				colorSwitch = false;
+		// 			}
+		// 		});
+		// 	}
+		// };
+
 		//Counter for the loop
 		var count = 0;
+
+		var colorSwitch = false;
 
 		//Loop through each child of the instance
 		$(this.hook).children().children().each(function() {
@@ -213,33 +277,39 @@ function SquareMaster() {
 				//Determine animtion based on number of squares
 				if(number === 4) {
 					//STANDARD 4
-					standardAnim = [1,2];
+					standardAnim = [0,3];					
 
 				} else if (number === 9) {
 					//STANDARD 9
 					standardAnim = [0,2,4,6,8];
+					standardSecondColor = [4];
 
 				} else if (number === 16) {
 					//STANDARD 16
 					standardAnim = [0,3,5,6,9,10,12,15];
+					standardSecondColor = [5,6,9,10];
 
 				} else if (number === 25) {
 					//STANDARD 25
 					standardAnim = [0,1,3,4,5,6,8,9,12,15,
 									16,18,19,20,21,23,24];
+					standardSecondColor = [0,4,12,20,24];				
 
 				} else if (number === 36) {
 					//STANDARD 36
 					standardAnim = [0,1,4,5,6,7,10,11,14,
 									15,20,21,24,25,28,29,
 									30,31,34,35];
+
+					// standardSecondColor = [0,5,14,15,20,21,30,35];				
 					
 				} else if ( number === 49 ) {
 					//STANDARD 49
-					standardAnim = [0,1,5,6,7,8,9,11,12,13,
-									15,16,17,18,19,23,24,25,
-									29,30,31,32,33,35,36,37,
-									39,40,41,42,43,47,48];
+					// standardAnim = [0,1,5,6,7,8,9,11,12,13,
+					// 				15,16,17,18,19,23,24,25,
+					// 				29,30,31,32,33,35,36,37,
+					// 				39,40,41,42,43,47,48];
+					standardAnim = [8,9,10,15,22,24,26,38];			
 
 				} else {
 					return null;
@@ -250,6 +320,35 @@ function SquareMaster() {
 
 					if ( makeAnimation(standardAnim) ) {
 						$(this).addClass(standard + animHandler);
+					}
+
+					if( setSecondaryColor(standardSecondColor) ) {
+
+						$(this).addClass('second-color');
+
+						self = $(this);
+
+						if (animHandler === 'click') {
+							$(this).parent().click(function() {
+								if ( !colorSwitch ) {
+									$(this).children('.second-color').css('background-color', secondColor);
+									colorSwitch = true;
+								} else {
+									$(this).children('.second-color').css('background-color', firstColor);
+									colorSwitch = false;
+								}
+							});
+						} else {
+							$(this).parent().hover(function() {
+								if ( !colorSwitch ) {
+									$(this).children('.second-color').css('background-color', secondColor);
+									colorSwitch = true;
+								} else {
+									$(this).children('.second-color').css('background-color', firstColor);
+									colorSwitch = false;
+								}
+							});
+						}
 					}
 					
 				} else if(type == "smile") {
@@ -266,6 +365,7 @@ function SquareMaster() {
 			count++;
 
 		});
+		
 	};
 
 

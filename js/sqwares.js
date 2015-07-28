@@ -195,6 +195,9 @@ function SquareMaster() {
 	};
 
 	Square.prototype.animationType = function(type, animHandler) {
+
+		var $hook = this.hook;
+
 		var firstColor = this.createColor(this.settings.color);
 
 		var secondColor = this.createColor(this.settings.secondColor);
@@ -231,42 +234,70 @@ function SquareMaster() {
 
 		function setSecondaryColor(colorArray) {
 			if ( $.inArray(count, colorArray) !== -1 )  {
-				console.log(colorArray +'\n');
+				// console.log(colorArray +'\n');
 				return ifInverse(true);
 			} else {
 				return ifInverse(false);
 			}	
 		};
 
-		// function secondaryColorEventHandler() {
-		// 	if (animHandler === 'click') {
-		// 		$(this).click(function() {
-		// 			if ( !colorSwitch ) {
-		// 				console.log($(this).find('.second-color'));
-		// 				$(this).find('.second-color').css('background-color', secondColor);
-		// 				colorSwitch = true;
-		// 			} else {
-		// 				$(this).children('div .second-color').css('background-color', firstColor);
-		// 				colorSwitch = false;
-		// 			}
-		// 		});
-		// 	} else {
-		// 		$(this).parent().hover(function() {
-		// 			if ( !colorSwitch ) {
-		// 				$(this).children('.second-color').css('background-color', secondColor);
-		// 				colorSwitch = true;
-		// 			} else {
-		// 				$(this).children('.second-color').css('background-color', firstColor);
-		// 				colorSwitch = false;
-		// 			}
-		// 		});
-		// 	}
-		// };
+
+		//Alternates between different classes and animations
+		//on click or hover
+		function secondaryAnimationEventHandler(hook, secondClass, initialClass, theArray) {
+			if (animHandler === 'click') {
+				hook.children().click(function() {
+					if ( !classSwitch ) {
+						$(this).children('.second-color').css('background-color', secondClass);
+						if(alternateToBool >= theArray.length -1) {
+								classSwitch = true;
+								alternateToBool = 0;
+							} else {
+								alternateToBool++;
+							}
+
+					} else {
+						$(this).children('.second-color').css('background-color', initialClass);
+						if(alternateToBool < theArray.length -1) {
+								alternateToBool++;
+							} else {
+								classSwitch = false;
+								alternateToBool = 0;
+							}
+
+					}
+				});
+			} else {
+				hook.children().hover(function() {
+					if ( !classSwitch ) {
+						$(this).children('.second-color').css('background-color', secondClass);
+						if(alternateToBool < standardSecondColor.length -1) {
+								alternateToBool++;
+							} else {
+								classSwitch = true;
+								alternateToBool = 0;
+							}
+
+					} else {
+						$(this).children('.second-color').css('background-color', initialClass);
+						if(alternateToBool < standardSecondColor.length -1) {
+								alternateToBool++;
+							} else {
+								classSwitch = false;
+								alternateToBool = 0;
+							}
+
+					}
+				});
+			}
+		};
 
 		//Counter for the loop
 		var count = 0;
 
-		var colorSwitch = false;
+		var classSwitch = false;
+
+		var alternateToBool = 0;
 
 		//Loop through each child of the instance
 		$(this.hook).children().children().each(function() {
@@ -300,16 +331,16 @@ function SquareMaster() {
 					standardAnim = [0,1,4,5,6,7,10,11,14,
 									15,20,21,24,25,28,29,
 									30,31,34,35];
-
-					// standardSecondColor = [0,5,14,15,20,21,30,35];				
+					standardSecondColor = [0,5,14,15,20,21,30,35];				
 					
 				} else if ( number === 49 ) {
 					//STANDARD 49
-					// standardAnim = [0,1,5,6,7,8,9,11,12,13,
-					// 				15,16,17,18,19,23,24,25,
-					// 				29,30,31,32,33,35,36,37,
-					// 				39,40,41,42,43,47,48];
-					standardAnim = [8,9,10,15,22,24,26,38];			
+					standardAnim = [0,1,5,6,7,8,9,11,12,13,
+									15,16,17,18,19,23,24,25,
+									29,30,31,32,33,35,36,37,
+									39,40,41,42,43,47,48];
+					standardSecondColor = [0,6,8,12,16,18,24,30,32,36,40,42,48];				
+					// standardAnim = [8,9,10,15,22,24,26,38];			
 
 				} else {
 					return null;
@@ -326,34 +357,12 @@ function SquareMaster() {
 
 						$(this).addClass('second-color');
 
-						self = $(this);
-
-						if (animHandler === 'click') {
-							$(this).parent().click(function() {
-								if ( !colorSwitch ) {
-									$(this).children('.second-color').css('background-color', secondColor);
-									colorSwitch = true;
-								} else {
-									$(this).children('.second-color').css('background-color', firstColor);
-									colorSwitch = false;
-								}
-							});
-						} else {
-							$(this).parent().hover(function() {
-								if ( !colorSwitch ) {
-									$(this).children('.second-color').css('background-color', secondColor);
-									colorSwitch = true;
-								} else {
-									$(this).children('.second-color').css('background-color', firstColor);
-									colorSwitch = false;
-								}
-							});
-						}
-					}
+						secondaryAnimationEventHandler($hook, secondColor, firstColor, standardSecondColor);
+					}	
 					
-				} else if(type == "smile") {
-
-					// console.log('smile');
+				} else if(type == "large") {
+					
+					// console.log('something');
 
 				} else {
 

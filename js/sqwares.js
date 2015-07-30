@@ -6,7 +6,7 @@
 //MasterSquare constructor that holds default settings
 function SquareMaster() {
 
-	this.hideSq = $('.sq-hide');
+	// this.hideSq = $('.sq-hide');
 	
 	this.defaultSettings = {
 		hook: 'sq-hook',
@@ -18,10 +18,11 @@ function SquareMaster() {
 		animationType: false,
 		inverse: false,
 		clockwise: true,
-		radius: false
+		radius: false,
+		rotation: 'standard',
+		secondColor: false,
+		secondColorSelect: false
 	};
-
-	this.defaultSettings.secondColor = this.defaultSettings.color;
 
 };
 
@@ -37,6 +38,10 @@ function SquareMaster() {
 		// this.settings.secondColor = this.settings.color;
 
 		this.settings = $.extend(this.defaultSettings, object);
+
+		if (this.settings.secondColor === false) {
+			this.settings.secondColor = this.settings.color;
+		}
 
 		this.hook = $('#' + this.settings.hook);
 	};
@@ -103,6 +108,12 @@ function SquareMaster() {
 		//or on click event
 		if (this.settings.animHandler == 'hover') {
 			animHandler = 'sq-hover';
+
+			//If rotation set, add rotation type to class
+			if(this.settings.rotation !== 'standard') {
+				animHandler += '-';
+				animHandler += this.settings.rotation;
+			}
 		} else {
 			animHandler = 'sq-' + this.settings.animHandler + '-off';
 		};
@@ -172,9 +183,17 @@ function SquareMaster() {
 	//
 	Square.prototype.eventHandler = function(animType, type) {
 
+		var rotation = this.settings.rotation;
+
 		//If clockwise is false, use counter class
 		var clickOff = 'sq-click-off';
 		var clickOn = 'sq-click-on';
+
+		//If rotation set, add rotation type to class
+		if(rotation !== 'standard') {
+			clickOn += '-';
+			clickOn += rotation;
+		}
 		if ( this.settings.clockwise === false ) {
 			clickOn += '-counter';
 		};
@@ -183,8 +202,13 @@ function SquareMaster() {
 			$(this.hook).children().click(function() {
 				$(this).toggleClass(clickOn);
 				if(type) {
+					//If custom array is given,
+					//set the animation type to standard for clas
+					if (jQuery.type(type) == 'array') {
+						type = 'standard';
+					}
 					//If animationType was specified:
-						//Create a click handler to toggle classes for the animation
+						//Create a click handler to toggle classes for the animation	
 					$(this).children('.sq-' + type + '-click')
 						.toggleClass('sq-' + type + '-click-on');
 				}
@@ -204,6 +228,10 @@ function SquareMaster() {
 
 		var inverse = this.settings.inverse;
 
+		var animationType = this.settings.animationType;
+
+		var secondColorSelect = this.settings.secondColorSelect;
+
 		//GET number of squares in the instance
 			//Store the length in the variable number
 		var number = $(this.hook).children().children().length;
@@ -211,6 +239,10 @@ function SquareMaster() {
 		var standardAnim;
 
 		var standardSecondColor;
+
+		//Class name prefixes
+		var standard = 'sq-standard-';
+		var large = 'sq-large-';
 
 		//Checks if the function should hide the inverse animation
 		function ifInverse(bool) {
@@ -235,9 +267,9 @@ function SquareMaster() {
 		function setSecondaryColor(colorArray) {
 			if ( $.inArray(count, colorArray) !== -1 )  {
 				// console.log(colorArray +'\n');
-				return ifInverse(true);
+				return true;
 			} else {
-				return ifInverse(false);
+				return false;
 			}	
 		};
 
@@ -260,11 +292,10 @@ function SquareMaster() {
 						$(this).children('.second-color').css('background-color', initialClass);
 						if(alternateToBool < theArray.length -1) {
 								alternateToBool++;
-							} else {
-								classSwitch = false;
-								alternateToBool = 0;
-							}
-
+						} else {
+							classSwitch = false;
+							alternateToBool = 0;
+						}
 					}
 				});
 			} else {
@@ -282,10 +313,10 @@ function SquareMaster() {
 						$(this).children('.second-color').css('background-color', initialClass);
 						if(alternateToBool < standardSecondColor.length -1) {
 								alternateToBool++;
-							} else {
-								classSwitch = false;
-								alternateToBool = 0;
-							}
+						} else {
+							classSwitch = false;
+							alternateToBool = 0;
+						}
 
 					}
 				});
@@ -301,9 +332,6 @@ function SquareMaster() {
 
 		//Loop through each child of the instance
 		$(this.hook).children().children().each(function() {
-
-				//Class name prefix
-				var standard = 'sq-standard-';
 
 				//Determine animtion based on number of squares
 				if(number === 4) {
@@ -346,8 +374,22 @@ function SquareMaster() {
 					return null;
 				}
 
+				//If custom animation array given,
+				//set standardAnim to custom array
+				if (jQuery.type(animationType) == 'array') {
+					//Custom Animation Type
+					standardAnim = animationType;
+				}
+
+				//If custom colors select array given,
+				//set standardSecondColor to custom array
+				if (jQuery.type(secondColorSelect) == 'array') {
+					//Custom Second Color Select
+					standardSecondColor = secondColorSelect;
+				}
+
 				//Add 
-				if(type == "standard") {
+				if(type == "standard" || jQuery.type(animationType) == 'array') {
 
 					if ( makeAnimation(standardAnim) ) {
 						$(this).addClass(standard + animHandler);
@@ -362,7 +404,16 @@ function SquareMaster() {
 					
 				} else if(type == "large") {
 					
-					// console.log('something');
+					// if ( makeAnimation(largeAnim) ) {
+					// 	$(this).addClass(large + animHandler);
+					// }
+
+					// if( setSecondaryColor(largeSecondColor) ) {
+
+					// 	$(this).addClass('second-color');
+
+					// 	secondaryAnimationEventHandler($hook, secondColor, firstColor, largeSecondColor);
+					// }
 
 				} else {
 
@@ -376,8 +427,3 @@ function SquareMaster() {
 		});
 		
 	};
-
-
-
-
-

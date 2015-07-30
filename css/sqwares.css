@@ -96,6 +96,8 @@ body {
 	-webkit-transform: rotate(0deg);
 }
 
+
+/*Standard Rotation*/
 .sq-click-on {
 	transform: translate(-50%, -50%);
 	transform: rotate(225deg);
@@ -129,9 +131,115 @@ body {
 }
 
 
+/*Shorter Rotation*/
+.sq-click-on-short {
+	transform: translate(-50%, -50%);
+	transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+}
+
+.sq-click-on-short-counter {
+	transform: translate(-50%, -50%);
+	transform: rotate(-180deg);
+	-webkit-transform: rotate(-180deg);
+	-moz-transform: rotate(-180deg);
+	-o-transform: rotate(-180deg);
+}
+
+.sq-hover-short:hover {
+	transform: translate(-50%, -50%);
+	transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+}
+
+.sq-hover-short-counter:hover {
+	transform: translate(-50%, -50%);
+	transform: rotate(-180deg);
+	-webkit-transform: rotate(-180deg);
+	-moz-transform: rotate(-180deg);
+	-o-transform: rotate(-180deg);
+}
+
+/*Longer Rotation*/
+.sq-click-on-long {
+	transform: translate(-50%, -50%);
+	transform: rotate(360deg);
+	-webkit-transform: rotate(360deg);
+	-moz-transform: rotate(360deg);
+	-o-transform: rotate(360deg);
+}
+
+.sq-click-on-long-counter {
+	transform: translate(-50%, -50%);
+	transform: rotate(-360deg);
+	-webkit-transform: rotate(-360deg);
+	-moz-transform: rotate(-360deg);
+	-o-transform: rotate(-360deg);
+}
+
+.sq-hover-long:hover {
+	transform: translate(-50%, -50%);
+	transform: rotate(360deg);
+	-webkit-transform: rotate(360deg);
+	-moz-transform: rotate(360deg);
+	-o-transform: rotate(360deg);
+}
+
+.sq-hover-long-counter:hover {
+	transform: translate(-50%, -50%);
+	transform: rotate(-360deg);
+	-webkit-transform: rotate(-360deg);
+	-moz-transform: rotate(-360deg);
+	-o-transform: rotate(-360deg);
+}
+
+/*Extra Long Rotation*/
+.sq-click-on-extra-long {
+	transform: translate(-50%, -50%);
+	transform: rotate(495deg);
+	-webkit-transform: rotate(495deg);
+	-moz-transform: rotate(495deg);
+	-o-transform: rotate(495deg);
+}
+
+.sq-click-on-extra-long-counter {
+	transform: translate(-50%, -50%);
+	transform: rotate(-495deg);
+	-webkit-transform: rotate(-495deg);
+	-moz-transform: rotate(-495deg);
+	-o-transform: rotate(-495deg);
+}
+
+.sq-hover-extra-long:hover {
+	transform: translate(-50%, -50%);
+	transform: rotate(495deg);
+	-webkit-transform: rotate(495deg);
+	-moz-transform: rotate(495deg);
+	-o-transform: rotate(495deg);
+}
+
+.sq-hover-extra-long-counter:hover {
+	transform: translate(-50%, -50%);
+	transform: rotate(-495deg);
+	-webkit-transform: rotate(-495deg);
+	-moz-transform: rotate(-495deg);
+	-o-transform: rotate(-495deg);
+}
+
+
 /*Change Opacity to allow for squares to still show on animation*/
 .sq-hover:hover .sq-standard-hover,
-.sq-hover-counter:hover .sq-standard-hover {
+.sq-hover-counter:hover .sq-standard-hover,
+.sq-hover-short:hover .sq-standard-hover,
+.sq-hover-short-counter:hover .sq-standard-hover,
+.sq-hover-long:hover .sq-standard-hover,
+.sq-hover-long-counter:hover .sq-standard-hover,
+.sq-hover-extra-long:hover .sq-standard-hover,
+.sq-hover-extra-long-counter:hover .sq-standard-hover {
 	opacity: 0;
 }
 
@@ -143,6 +251,11 @@ body {
 .sq-standard-click-on {
 	opacity: 0;
 }
+
+
+
+
+
 
 #sq-hook, #black, #blue, #purple, #orange, #red {
 	margin: 0 50px;

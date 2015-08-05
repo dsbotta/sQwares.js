@@ -5,3 +5,5 @@
 
 <a href="http://sqwares.danielbotta.com"><p>sQwares Website</p></a>
 <a href="http://sqwares.danielbotta.com/instructions.html"><p>Instructions</p></a>
+<hr />
+<a href="http://danielbotta.com"><p>&copy; Daniel Botta</p></a>

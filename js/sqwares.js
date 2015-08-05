@@ -5,8 +5,6 @@
 
 //MasterSquare constructor that holds default settings
 function SquareMaster() {
-
-	// this.hideSq = $('.sq-hide');
 	
 	this.defaultSettings = {
 		hook: 'sq-hook',
@@ -427,3 +425,7 @@ function SquareMaster() {
 		});
 		
 	};
+
+
+
+

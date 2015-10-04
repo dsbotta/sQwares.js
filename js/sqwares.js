@@ -1,6 +1,6 @@
-/*********************
+/**********************
 		SQWARES
-*********************/
+**********************/
 
 
 //MasterSquare constructor that holds default settings
